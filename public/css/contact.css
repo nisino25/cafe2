@@ -1,0 +1,23 @@
+table{
+  border-spacing: 0 15px;
+}
+table, th, td {
+  /* border: 1px solid black; */
+  /* border-bottom: solid 2px green; */
+}
+
+th{
+  text-align: middle;
+
+  border: 1px solid black;
+  /* color: red; */
+}
+
+tr{
+  /* color:yellow */
+  margin-bottom: 20px;
+}
+/* text-align:center; background-color: grey; color:white; border-bottom: solid 2px green; */
+/* html{
+color: white
+} */
