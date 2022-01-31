@@ -18,8 +18,16 @@ use Illuminate\Support\Facades\Route;
 // });
 Route::get('/','ContactsController@index');
 Route::get('/index','ContactsController@index');
+
 Route::get('/contact','ContactsController@contact');
-Route::get('/confirm','ContactsController@confirm');
+Route::post('/contact','ContactsController@check');
+
+// Route::get('/confirm','ContactsController@confirm');
+Route::post('/confirm','ContactsController@create');
+
+Route::post('/complete','ContactsController@create');
 
 Route::get('/check', 'ContactsController@check');
 Route::post('/check', 'ContactsController@display');
+
+Route::get('/delete', 'ContactsController@delete');

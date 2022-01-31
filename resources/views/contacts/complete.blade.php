@@ -36,7 +36,8 @@
             <h2>お問い合わせ</h2>
           <form action="confirm" method="POST">
           {{ csrf_field() }}
-          <p>お問い合わせ頂きありがとうございます。</p>
+          <h1 style="text-align:center">お問い合わせ頂きありがとうございます。</h1>
+          <br><br>
                 <p>送信頂いた件につきましては、当社より折り返しご連絡を差し上げます。</p>
                 <p>なお、ご連絡までに、お時間を頂く場合もございますので予めご了承ください。</p>
             <dl class="confirm">
@@ -51,8 +52,7 @@
                       <dt>お問い合わせ内容</dt>
                       <dd name="body">{{$body}}</dd>
                       <dd class="confirm_btn">
-                          <button type="submit" name="submit" >送　信</button>
-                          <a href="javascript:history.back();">戻　る</button>
+                          <a href="/">戻　る</button>
                       </dd>
             </dl>
 			</form>

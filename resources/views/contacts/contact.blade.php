@@ -1,43 +1,3 @@
-<?php 
-session_start();
-// require_once(__DIR__ .'/../../../app/Http/Controllers/ContactsController.php');
-  // sendData($params['player']['id']);
-  // session_start();
-  // $controller = new ContactsController();
-  // $params = $controller->view();
-  // $countries = $controller->grabCountryList();
-  // $detail = $controller->detail();
-  // use App\ContactsControllers;
-  // $controller->createRow();
-  // $controller->register();
-
-  // $validationList = $_SESSION['validationList'];
-  // $validationFlag = $_SESSION['validationFlag'];
-  
-?>
-<!-- 
-// include 'functions.php';
-
-// session_start();
-
-// createRow();
-// $result = readTheTable();
-
-
-
-// function deleteRows($num){
-//     $connection = mysqli_connect('localhost', 'root', '', 'cafe');
-//     $query = "DELETE FROM contacts";
-//     $query .= "WHERE id = $num";
-
-//     $result = mysqli_query($connection, $query);
-// };
-
-
-
-
-    
-?> -->
 
 
 <!DOCTYPE html>
@@ -52,11 +12,12 @@ session_start();
     <script>
 
         function deletingConfirmation(num) {   
+					console.log('sup')
             let text = 'id No.' + num + ' を削除しますか？' ;
             
             if (confirm(text) == true) {
 
-                window.location = (`./delete.php?id="${num}"`) 
+                window.location = (`./delete?id="${num}"`) 
             } else {
                 text = "You canceled!";
             }
@@ -160,15 +121,14 @@ session_start();
     </header>
     <!-- <open-modal v-show="showContent" v-on="click: closeModal"></open-modal> -->
 
+
+
     <section>
         <div class="contact_box">
             <h2 style="">お問い合わせ</h2>
-			<form name="myform" action="./check" method="POST">
-            @csrf
-            <!-- <form name="myform" action="./check" > -->
-      <!-- @csrf 
-      @method('PUT') -->
-      <!-- @method('PUT') -->
+			<form name="myform" action="./contact" method="POST">
+            <!-- @csrf -->
+						{{ csrf_field() }}
                 <h3 >下記の項目をご記入の上送信ボタンを押してください</h3>
                 <p>送信頂いた件につきましては、当社より折り返しご連絡を差し上げます。</p>
                 <p>なお、ご連絡までに、お時間を頂く場合もございますので予めご了承ください。</p>
@@ -177,47 +137,45 @@ session_start();
 
                 <dl>
                     <dt><label for="name">氏名</label><span class="required">*</span></dt>
-                    <?php 
-                        if(isset($_POST['submit'])){
-                            if($validationList['name'] !== true) echo '<dd class="error">' . $validationList['name'] . '</dd>';
-                        }
-                    ?> 
+										@isset($nameError)
+										<dd class="error">{{ $nameError }}</dd>
+										@endisset
+										
+										
                     <dd><input class="name" type="text" name="name" id="username" placeholder="yamada" value="<?php echo isset($_POST["name"]) ? $_POST["name"] : ''; ?>"></dd>
+										
 
                     <dt><label for="kana">フリガナ</label><span class="required">*</span></dt>
-                    <?php 
-                        if(isset($_POST['submit'])){
-                            if($validationList['kana'] !== true) echo '<dd class="error">' . $validationList['kana'] . '</dd>';
-                        }
-                    ?> 
+										@isset($kanaError)
+										<dd class="error">{{ $kanaError }}</dd>
+										@endisset
+                    
                     <dd><input class="kana" type="text" name="kana" id="kana" placeholder="ヤマダタロウ" value="<?php echo isset($_POST["kana"]) ? $_POST["kana"] : ''; ?>"></dd>
 
                     <dt><label for="tel">電話番号</label></dt>
-                    <?php 
-                        if(isset($_POST['submit'])){
-                            if($validationList['tel'] !== true) echo '<dd class="error">' . $validationList['tel'] . '</dd>';
-                        }
-                    ?> 
+										@isset($telError)
+										<dd class="error">{{ $telError }}</dd>
+										@endisset
+                    
                     <dd><input class="tel" type="text" name="tel" id="tel" placeholder="09012345678" value="<?php echo isset($_POST["tel"]) ? $_POST["tel"] : ''; ?>"></dd>
 
                     <dt><label for="email">メールアドレス</label><span class="required">*</span></dt>
-                    <?php 
-                        if(isset($_POST['submit'])){
-                            if($validationList['email'] !== true) echo '<dd class="error">' . $validationList['email'] . '</dd>';
-                        }
-                    ?> 
+										@isset($emailError)
+										<dd class="error">{{ $emailError }}</dd>
+										@endisset
+                   
                     <dd><input class="email" type="text" name="email" id="email" placeholder="test@test.co.jp" value="<?php echo isset($_POST["email"]) ? $_POST["email"] : ''; ?>"></dd>
 
                 </dl>
                 
                 <h3><label for="body">お問い合わせ内容をご記入ください<span class="required">*</span></label></h3>
                 <dl class="body">
-                    <?php 
-                        if(isset($_POST['submit'])){
-                            if($validationList['body'] !== true) echo '<dd class="error">' . $validationList['body'] . '</dd>';
-                        }
-                    ?> 
+								@isset($bodyError)
+										<dd class="error">{{ $bodyError }}</dd>
+										@endisset
+                    
                     <dd><textarea class="main" name="body" id="body" ><?php echo isset($_POST["body"]) ? $_POST["body"] : ''; ?></textarea></dd>
+										
                     <dd><button type="submit" name="submit">送　信</button></dd>
                 </dl>
 
@@ -259,33 +217,8 @@ session_start();
                   <td>{{$result->body}}</td>
                   <td>{{$result->created_at}}</td>
                   <td>編集</td>
-                  <td>削除</td>
-                            <!-- echo "<tr>";
-                        echo "<td> &nbsp;"  . "</td>";
-                        echo "</tr>";
-                        echo "<tr style='background-color:lightgrey'>";
-                        echo "<td>" . $row['id'] . "</td>";
-                        echo "<td>" . $row['name'] . "</td>";
-                        echo "<td>" . $row['kana'] . "</td>";
-                        echo "<td>" . $row['tel'] . "</td>";
-                        echo "<td>" . $row['email'] . "</td>";
-                        echo "<td>" . $row['body'] . "</td>";
-                        echo "<td>" . $row['created_at'] . "</td>";
-                        // echo "<td >　編集". "</td>";
-                        // echo '<td onclick="deletingConfirmation()"> <button onclick="deletingConfirmation()">  削除  </button> </td>';
-                        echo "<td ><a href='edit.php?id=" . $row['id'] . "'>編集</a></td>";
-
-                        echo "<td><input type = 'button' onclick = 'deletingConfirmation({$row['id']})' value = '削除'></td>";
-
-                        // echo "<td><input type ='button' type='submit' name='delete' value = '削除'></td>";
-                        // echo "<td><a href='delete.php?id=" . $row['id'] . ">Delete</a></td>";
-
-                        // echo "<td ><a href='delete.php?id=" . $row['id'] . "'>削除</a></td>";
-
-
-                        // echo
-
-                        echo "</tr>"; -->
+                  <!-- <td><input type = 'button' onclick = 'deletingConfirmation($result->id)' value = '削除'></td> -->
+									<td><input type = 'button' onclick = 'deletingConfirmation({{$result->id}})' value = '削除'></td>
                     
                 </tr>
                 @endforeach
