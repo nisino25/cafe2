@@ -225,18 +225,14 @@ class ContactsController extends Controller{
 		}
 
 		public function delete(Request $request){
-				$id = $_GET['id'];
-				$query = "DELETE FROM contacts WHERE id = $id";
-		
-		
-				$result = mysqli_query($GLOBALS['connection'], $query);
-		
-				if(!$result){
-					die('failed sending data. '. mysqli_error($GLOBALS['connection']));
-				}else{
-					header("Location: ./contact");
-					die();
-				}
+            $key = $request->key
+				$id = $request->id;
+                
+            // $query = "DELETE FROM contacts WHERE id = $id";
+            $deleted = DB::delete('delete from contacts where id = ?',[$id]);
+
+            header("Location: ./contact");
+            die();
 			
 			// $name = $request->input('name');
 			// $kana = $request->get('kana');
